@@ -1,15 +1,12 @@
 # !/usr/bin/env python
 # -*- coding:utf-8 -*-
 # *******************************************************************
-# Filename: tests.py
-# *******************************************************************
 # Author: Ioannis Pinakoulakis
-# Maintainer: 
 # Created: Mon Sep 29 19:07:30 2014 (+0200)
-# Version: 
-# Last-Updated: 
-#           By: 
-#     Update #: 0
+# Version: 0.1
+# Last-Updated: Wed Dec 31 18:17:44 2014 (+0200)
+#           By: Ioannis Pinakoulakis
+#     Update #: 2
 # Description: 
 # *******************************************************************
 # Keywords: 
@@ -25,8 +22,8 @@ try:
 except ImportError as e:
     FLASK_AVAILABLE = False
 
-from uri import build_uri
-from mailgun_api import Mailgun
+from flask.ext.mailgun import build_uri
+from flask.ext.mailgun import Mailgun
 
 class MailgunApi_tests(unittest.TestCase):
     

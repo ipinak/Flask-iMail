@@ -1,19 +1,17 @@
 # !/usr/bin/env python
 # -*- coding:utf-8 -*-
 # *******************************************************************
-# Filename: setup.py
-# *******************************************************************
 # Author: Ioannis Pinakoulakis
-# Maintainer:
 # Created: Sat Oct  4 18:44:56 2014 (+0200)
-# Version:
-# Last-Updated:
-#           By:
-#     Update #: 0
+# Version: 0.1
+# Last-Updated: Wed Dec 31 18:24:24 2014 (+0200)
+#           By: Ioannis Pinakoulakis
+#     Update #: 4
 # Description:
 # *******************************************************************
 # Keywords: setuptools
 # *******************************************************************
+#
 __author__ = 'ipinak'
 
 from setuptools import setup
@@ -34,9 +32,11 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
+        'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Topic :: Internet :: Mail :: Mailgun',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]
 )

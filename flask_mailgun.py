@@ -1,15 +1,12 @@
 # !/usr/bin/env python
 # -*- coding:utf-8 -*-
 # *******************************************************************
-# Filename: mailgun_api.py
-# *******************************************************************
 # Author: Ioannis Pinakoulakis
-# Maintainer: 
 # Created: Mon Sep 29 18:57:29 2014 (+0200)
-# Version: 
-# Last-Updated: 
-#           By: 
-#     Update #: 0
+# Version: 0.1
+# Last-Updated: Wed Dec 31 18:19:15 2014 (+0200)
+#           By: Ioannis Pinakoulakis
+#     Update #: 3
 # Description: 
 # *******************************************************************
 # Keywords: mailgun, email
@@ -19,8 +16,10 @@ __author__ = 'ipinak'
 
 import requests
 import json
-from uri import build_uri
+import uri as _u
 
+# Export 
+build_uri = _u.build_uri
 
 class Mailgun(object):
 
@@ -34,13 +33,14 @@ class Mailgun(object):
         self.app = app
 
     def send_email(self, sender, receiver, message, **kwargs):
-        return self.mailgunApi.send_email(sender, receiver, message,
+        return self.mailgunApi.send_email(sender, receiver,
+                                          message=message,
                                           **kwargs
         )
 
 
-class YARequest(object):
-    '''YARequest - Yet Another Request'''
+class _YARequest(object):
+    '''_YARequest - Yet Another Request'''
 
     def __init__(self, auth=None):
         self._auth = auth
@@ -62,10 +62,10 @@ class YARequest(object):
         return requests.put(uri, auth=self.auth, data=data)
 
 
-class MailgunApi(YARequest):
+class MailgunApi(_YARequest):
 
     def __init__(self, api_key, domain):
-        YARequest.__init__(self, ('api', api_key))
+        _YARequest.__init__(self, ('api', api_key))
         self.domain = domain
 
     def send_email(self, sender, receiver, **kwargs):
@@ -94,7 +94,7 @@ class MailgunApi(YARequest):
             if kwargs.has_key('attachments'):
                 data['files'] = kwargs['attachments']
 
-        response = self.post(build_uri("messages", domain=self.domain), data)
+        response = self.post(_u.build_uri("messages", domain=self.domain), data)
         if response.status_code == 200:
             return json.loads(response.content)
         return None
@@ -103,7 +103,7 @@ class MailgunApi(YARequest):
         """
         :return - a dictionary with the data from the response
         """
-        response = self.get(build_uri("domains"), data=None)
+        response = self.get(_u.build_uri("domains"), data=None)
         if response.status_code == 200:
             return json.loads(response.content)
         return None
