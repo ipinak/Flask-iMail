@@ -24,11 +24,11 @@ setup(
     author='Ioannis Pinakoulakis',
     maintainer='Ioannis Pinakoulakis',
     description='Mailgun integration for Flask.',
-    py_modules=['mailgun_api', 'uri'],
+    py_modules=['flask_mailgun', 'uri'],
     platforms='any',
     install_requires=['Flask', 'requests'],
     zip_safe=False,
-    package_dir = {'':'.'},
+    package_dir = {'.':'.'},
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
