@@ -2,13 +2,8 @@
 # -*- coding:utf-8 -*-
 # *******************************************************************
 # Author: Ioannis Pinakoulakis
-# Created: Mon Sep 29 18:57:29 2014 (+0200)
 # Version: 0.1
-# Last-Updated: Wed Dec 31 18:19:15 2014 (+0200)
-#           By: Ioannis Pinakoulakis
-#     Update #: 3
-# Description: 
-# *******************************************************************
+# Description:
 # Keywords: mailgun, email
 # *******************************************************************
 #
@@ -18,7 +13,7 @@ import requests
 import json
 import uri as _u
 
-# Export 
+# Export
 build_uri = _u.build_uri
 
 class Mailgun(object):
@@ -106,6 +101,15 @@ class MailgunApi(_YARequest):
         response = self.get(_u.build_uri("domains"), data=None)
         if response.status_code == 200:
             return json.loads(response.content)
+        return None
+
+    def validate_email(self, email):
+        data = {
+            "address": email
+        }
+        resp = self.get(_u.build_uri("address.validate"), data)
+        if resp.status_code == 200:
+            return json.loads(resp.content)
         return None
 
 
