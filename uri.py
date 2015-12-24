@@ -37,11 +37,18 @@ def build_uri(uri_type, base_uri=DEFAULT_MAILGUN_URI, **kwargs):
 
     def total_stats_uri():
         if kwargs is not None:
-            domain = "/" + kwargs.get("domain", None)
+            domain = kwargs.get("domain", None)
             if domain is None:
                 raise DomainNotSetError()
-            uri = domain + "/stats/total"
-            return uri
+            return base_uri + domain + "/stats/total"
+        return None
+
+    def stats_uri():
+        if kwargs is not None:
+            domain = kwargs.get("domain", None)
+            if domain is None:
+                raise DomainNotSetError()
+            return base_uri + domain + "/stats"
         return None
 
     if uri_type == "messages":
@@ -57,7 +64,7 @@ def build_uri(uri_type, base_uri=DEFAULT_MAILGUN_URI, **kwargs):
     if uri_type == "total.stats":
         return total_stats_uri()
     if uri_type == "stats":
-        return base_uri + "stats"
+        return stats_uri()
     raise ValueError("*** Unknown type")
 
 

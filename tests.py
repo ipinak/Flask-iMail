@@ -53,10 +53,25 @@ class MailgunApi_tests(unittest.TestCase):
 
         assert uri == expected_uri
 
+    def test_TotalStats(self):
+        uri = build_uri("total.stats", domain="ipinak.gr")
+        expected_uri = "https://api.mailgun.net/v2/ipinak.gr/stats/total"
+
+        assert uri == expected_uri
+
+    def test_Stats(self):
+        uri = build_uri("stats", domain="ipinak.gr")
+        expected_uri = "https://api.mailgun.net/v2/ipinak.gr/stats"
+
+        assert uri == expected_uri
+
 
 class FlaskMailgun_test(unittest.TestCase):
 
     def setUp(self):
+        print("\n***********************************************************************\n")
+        print("If you want to run this test, you must specify a KEY and a DOMAIN above")
+        print("\n***********************************************************************\n")
         self.app = Flask('test_flask_mailgun')
         self.mailgun = Mailgun()
         self.app.config['MAILGUN_KEY'] = 'your-key'
@@ -81,4 +96,5 @@ class FlaskMailgun_test(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    print("***\nIf you want to run this test, you must specify a KEY and a DOMAIN above\n***")
     unittest.main()
