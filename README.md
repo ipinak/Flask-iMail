@@ -42,3 +42,14 @@ sender and receiver. Otherwise you will face an error stating:
 If you do changes then run
 
     $ python tests.py
+
+# TODO
+
+- Add function for `events`.
+- Add more functions for `messages`, e.g. receive, delete.
+- Add missing functions for `domains`.
+- Add functions for `tags`.
+- Add functions for `suppressions`.
+- Add functions for `routes`.
+- Add functions for `mailing lists`.
+- Add missing tests.

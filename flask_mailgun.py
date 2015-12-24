@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding:utf-8 -*-
 # *******************************************************************
-# Author: Ioannis Pinakoulakis
+# Author: ipinak
 # Version: 0.1
 # Description:
 # Keywords: mailgun, email
@@ -10,11 +10,12 @@
 __author__ = 'ipinak'
 
 import requests
-import json
 import uri as _u
+import utils
 
 # Export
 build_uri = _u.build_uri
+DomainNotSetError = _u.DomainNotSetError
 
 class Mailgun(object):
 
@@ -90,27 +91,45 @@ class MailgunApi(_YARequest):
                 data['files'] = kwargs['attachments']
 
         response = self.post(_u.build_uri("messages", domain=self.domain), data)
-        if response.status_code == 200:
-            return json.loads(response.content)
-        return None
+        return utils.handle_response(response)
 
     def get_domains(self):
         """
-        :return - a dictionary with the data from the response
+        :return: a dictionary with the data from the response
         """
         response = self.get(_u.build_uri("domains"), data=None)
-        if response.status_code == 200:
-            return json.loads(response.content)
-        return None
+        return utils.handle_response(response)
 
     def validate_email(self, email):
+        """
+        Validate an email using Mailgun.
+        :param email: the email in string format.
+        :return: a dictionary with the data from the response
+        """
         data = {
             "address": email
         }
         resp = self.get(_u.build_uri("address.validate"), data)
-        if resp.status_code == 200:
-            return json.loads(resp.content)
-        return None
+        return utils.handle_response(resp)
+
+    def get_total_stats(self, **kwargs):
+        """
+        Get the total stats of a specified domain (`<domain/stats/total`).
+        :param kwargs: parameters to query the service:
+            `event`, `start`, `end`, `resolution`, `duration`
+        :return: a dictionary with data from the response
+        """
+        resp = self.get(_u.build_uri("total.stats", domain=self.domain), kwargs)
+        return utils.handle_response(resp)
+
+    def get_stats(self, **kwargs):
+        """
+        Returns a list of event stats items. Each record represents counts for one event per one day.
+        :params kwargs: parameters to query the service: `limit`, `skip`, `event`, `start-date`
+        :return: a dictionary with the data from the response
+        """
+        resp = self.get(_u.build_uri("stats"), kwargs)
+        return utils.handle_response(resp)
 
 
 if __name__ == "__main__":

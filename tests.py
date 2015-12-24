@@ -1,17 +1,12 @@
 # !/usr/bin/env python
 # -*- coding:utf-8 -*-
 # *******************************************************************
-# Author: Ioannis Pinakoulakis
-# Created: Mon Sep 29 19:07:30 2014 (+0200)
+# Author: ipinak
 # Version: 0.1
-# Last-Updated: Wed Dec 31 18:17:44 2014 (+0200)
-#           By: Ioannis Pinakoulakis
-#     Update #: 2
-# Description: 
+# Description:
+# Keywords: tests, mailgun
 # *******************************************************************
-# Keywords: 
-# *******************************************************************
-
+#
 import unittest
 
 # If you have not installed flask it will not run the MailGun-Flask
@@ -22,7 +17,7 @@ try:
 except ImportError as e:
     FLASK_AVAILABLE = False
 
-from flask.ext.mailgun import build_uri
+from flask.ext.mailgun import build_uri, DomainNotSetError
 from flask.ext.mailgun import Mailgun
 
 class MailgunApi_tests(unittest.TestCase):
@@ -36,9 +31,9 @@ class MailgunApi_tests(unittest.TestCase):
     def test_MessagesURI_2(self):
         try:
             build_uri("messages")
-        except ValueError as e:
+        except DomainNotSetError as e:
             print("Result :> ValueError was raised as expected!")
-            assert e.message == "*** You must set the <domain> for the mailgun API"
+            assert e.message == "*** You must set the <domain> for Mailgun API"
 
     def test_DomainsURI(self):
         uri = build_uri("domains")

@@ -19,30 +19,53 @@ def build_uri(uri_type, base_uri=DEFAULT_MAILGUN_URI, **kwargs):
     """
     def messages():
         if kwargs is not None:
-            domain = kwargs.get("domain")
+            domain = kwargs.get("domain", None)
             if domain is None:
-                raise ValueError("*** You must set the <domain> for the mailgun API")
+                raise DomainNotSetError()
         return base_uri + domain + "/messages"
+
+    def domains():
+        return base_uri + "domains"
 
     def specific_domain():
         if kwargs is not None:
-            domain = "/" + kwargs.get("domain")
+            domain = "/" + kwargs.get("domain", None)
             if domain is None:
-                raise ValueError("*** You must set the <domain> for the mailgun API")
-        return domains() + domain
+                raise DomainNotSetError()
+            return domains() + domain
+        return None
+
+    def total_stats_uri():
+        if kwargs is not None:
+            domain = "/" + kwargs.get("domain", None)
+            if domain is None:
+                raise DomainNotSetError()
+            uri = domain + "/stats/total"
+            return uri
+        return None
 
     if uri_type == "messages":
         return messages()
     if uri_type == "mailists":
         return base_uri + "lists"
     if uri_type == "domains":
-        return base_uri + "domains"
+        return domains()
     if uri_type == "domains.domain":
         return specific_domain()
     if uri_type == "address.validate":
         return base_uri + "address/validate"
+    if uri_type == "total.stats":
+        return total_stats_uri()
+    if uri_type == "stats":
+        return base_uri + "stats"
     raise ValueError("*** Unknown type")
 
 
+class DomainNotSetError(ValueError):
+
+    def __init__(self):
+        ValueError.__init__(self, "*** You must set the <domain> for Mailgun API")
+
 if __name__ == '__main__':
-    print build_uri("messages", domain="ipinak.gr")
+    print(build_uri("messages", domain="ipinak.gr"))
+
