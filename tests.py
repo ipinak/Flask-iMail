@@ -21,10 +21,12 @@ from flask.ext.mailgun import build_uri, DomainNotSetError
 from flask.ext.mailgun import Mailgun
 
 class MailgunApi_tests(unittest.TestCase):
+
+    BASE_URI = "https://api.mailgun.net/v2/"
     
     def test_MessagesURI_1(self):
         uri = build_uri("messages", domain="ipinak.gr")
-        expected_uri = "https://api.mailgun.net/v2/ipinak.gr/messages"
+        expected_uri = self.BASE_URI + "ipinak.gr/messages"
 
         assert uri == expected_uri
 
@@ -37,31 +39,49 @@ class MailgunApi_tests(unittest.TestCase):
 
     def test_DomainsURI(self):
         uri = build_uri("domains")
-        expected_uri = "https://api.mailgun.net/v2/domains"
+        expected_uri = self.BASE_URI + "domains"
 
         assert uri == expected_uri
 
     def test_MailingLists(self):
         uri = build_uri("mailists")
-        expected_uri = "https://api.mailgun.net/v2/lists"
+        expected_uri = self.BASE_URI + "lists"
 
         assert uri == expected_uri
 
     def test_Specific_domain(self):
         uri = build_uri("domains.domain", domain="ipinak.gr")
-        expected_uri = "https://api.mailgun.net/v2/domains/ipinak.gr"
+        expected_uri = self.BASE_URI + "domains/ipinak.gr"
 
         assert uri == expected_uri
 
     def test_TotalStats(self):
         uri = build_uri("total.stats", domain="ipinak.gr")
-        expected_uri = "https://api.mailgun.net/v2/ipinak.gr/stats/total"
+        expected_uri = self.BASE_URI + "ipinak.gr/stats/total"
 
         assert uri == expected_uri
 
     def test_Stats(self):
         uri = build_uri("stats", domain="ipinak.gr")
-        expected_uri = "https://api.mailgun.net/v2/ipinak.gr/stats"
+        expected_uri = self.BASE_URI + "ipinak.gr/stats"
+
+        assert uri == expected_uri
+
+    def test_tags(self):
+        uri = build_uri("tags", domain="ipinak.gr")
+        expected_uri = self.BASE_URI + "ipinak.gr/tags"
+
+        assert uri == expected_uri
+
+    def test_tag(self):
+        uri = build_uri("tag", domain="ipinak.gr", tag="tester")
+        expected_uri = self.BASE_URI + "ipinak.gr/tags/tester"
+
+        assert uri == expected_uri
+
+    def test_tag_stats(self):
+        uri = build_uri("tag.stats", domain="ipinak.gr", tag="tester")
+        expected_uri = self.BASE_URI + "ipinak.gr/tags/tester/stats"
 
         assert uri == expected_uri
 

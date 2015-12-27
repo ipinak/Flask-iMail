@@ -124,11 +124,62 @@ class MailgunApi(_YARequest):
 
     def get_stats(self, **kwargs):
         """
-        Returns a list of event stats items. Each record represents counts for one event per one day.
-        :params kwargs: parameters to query the service: `limit`, `skip`, `event`, `start-date`
+        Returns a list of event stats items. Each record represents counts for
+        one event per one day.
+        :params kwargs: parameters to query the service: `limit`, `skip`,
+            `event`, `start-date`
         :return: a dictionary with the data from the response
         """
         resp = self.get(_u.build_uri("stats"), kwargs)
+        return utils.handle_response(resp)
+
+    def get_tags(self):
+        """
+        Returns a list of tags for a domain. Provides with the pagination urls
+        if the result set is to long to be returned in a single response.
+        :return: a dictionary with the data from the response
+        """
+        resp = self.get(_u.build_uri("tags", domain=self.domain))
+        return utils.handle_response(resp)
+
+    def get_tag(self, tag):
+        """
+        Returns a given tag.
+        :param kwargs: a tag in string format
+        :return: a dictionary with the data from the response
+        """
+        resp = self.get(_u.build_uri("tag", domain=self.domain),
+                        data={'tag': tag})
+        return utils.handle_response(resp)
+
+    def update_tag(self, tag):
+        """
+        Updates a given tag with the information provided.
+        :param tag: a tag in string format
+        :return: a dictionary with the data from the response
+        """
+        resp = self.put(_u.build_uri("tag", domain=self.domain),
+                        data={'tag': tag})
+        return utils.handle_response(resp)
+
+    def delete_tag(self, tag):
+        """
+        Deletes the tag. Note: The statistics for the tag is not destroyed.
+        :param tag: a tag in string format
+        :return: a dictionary with the data from the response
+        """
+        resp = self.delete(_u.build_uri("tag", domain=self.domain),
+                           data={'tag': tag})
+        return utils.handle_response(resp)
+
+    def get_tag_stats(self, tag):
+        """
+        Returns statistics for a given tag.
+        :param tag: a tag in string format
+        :return: a dictionary with the data from the response
+        """
+        resp = self.get(_u.build_uri("tag.stats", domain=self.domain),
+                        data={'tag': tag})
         return utils.handle_response(resp)
 
 
